@@ -1,3 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+#let's create a donation page
+
+def donation_page(request):
+    pass
