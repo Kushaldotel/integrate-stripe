@@ -3,6 +3,8 @@ from django.urls import reverse
 import stripe
 from django.conf import settings
 
+from .models import Donation
+
 
 #let's create a donation page
 
@@ -17,10 +19,17 @@ def donation_page(request):
         ],
         mode='payment',
         success_url=request.build_absolute_uri(reverse('payment-success'))+ '?session_id={CHECKOUT_SESSION_ID}',
-        # failure_url=request.build_absolute_uri(reverse('payment-failed')),
+        cancel_url=request.build_absolute_uri(reverse('payment-failed')),
         )
+    donation = Donation.objects.get(id=1)
 
-    return render(request, 'donation/donation_page.html')
+    context = {
+        # 'session_id': sessions.id,
+        # 'public_key': settings.STRIPE_PUBLIC_KEY,
+        'donation': donation,
+    }
+
+    return render(request, 'donation/donation_page.html',context)
 
 def payment_success(request):
     return render(request, 'donation/payment-success.html')

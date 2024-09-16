@@ -1,6 +1,88 @@
+
 {% extends "../base.html" %}
+{% load static %}
+
 {% block content %}
-<h1>
-    This is a donation page.
-</h1>
-{% endblock content %}
+    <style>
+        /* Internal CSS for styling */
+        .donation-container {
+            max-width: 500px;
+            background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+        }
+
+        .donation-header {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .icon-large {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .icon-heart {
+            font-size: 3.5rem;
+            color: #e74c3c;
+            margin: 20px 0;
+        }
+
+        .donation-text {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .donation-button {
+            background-color: #3498db;
+            color: white;
+            font-size: 1.1rem;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .donation-button:hover {
+            background-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.6);
+        }
+    </style>
+
+    <div class="container">
+        <div class="donation-container text-center">
+            <h2 class="donation-header">Send a Donation</h2>
+            <i class="fa fa-child icon-large" aria-hidden="true"></i>
+            <h4 class="text-primary">{{ donation.title }}!</h4>
+
+            <hr>
+
+            <i class="fa fa-heart icon-heart" aria-hidden="true"></i>
+
+            <p class="donation-text">Feel free to send a ${{donation.amount}} donation.</p>
+
+            <hr>
+
+            <!-- PayPal buttons -->
+
+            <!-- Stripe button -->
+            <button id="stripe-checkout" type="submit" class="donation-button">
+                <i class="fa fa-credit-card" aria-hidden="true"></i> &nbsp; Pay with Stripe
+            </button>
+        </div>
+    </div>
+
+    <!-- for stripe-->
+
+    <script src="https://js.stripe.com/v3/">
+
+    </script>
+
+{% endblock %}
