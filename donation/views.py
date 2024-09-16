@@ -10,26 +10,25 @@ from .models import Donation
 
 def donation_page(request):
     stripe.api_key = settings.STRIPE_PRIVATE_KEY
-    sessions = stripe.checkout.Session.create(
+    session = stripe.checkout.Session.create(
         line_items=[{
-
-            'price':'price_1PvWxSP6wf6niOUW0c9Rdiik',
-            'quantity':1,
-        }
-        ],
+            'price': 'price_1PvWxSP6wf6niOUW0c9Rdiik',
+            'quantity': 1,
+        }],
         mode='payment',
-        success_url=request.build_absolute_uri(reverse('payment-success'))+ '?session_id={CHECKOUT_SESSION_ID}',
+        success_url=request.build_absolute_uri(reverse('payment-success')) + '?session_id={CHECKOUT_SESSION_ID}',
         cancel_url=request.build_absolute_uri(reverse('payment-failed')),
-        )
+    )
     donation = Donation.objects.get(id=1)
 
     context = {
-        # 'session_id': sessions.id,
-        # 'public_key': settings.STRIPE_PUBLIC_KEY,
+        'stripe_session_id': session.id,  # Changed to match template variable
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,  # Changed to match template variable
         'donation': donation,
     }
 
-    return render(request, 'donation/donation_page.html',context)
+    return render(request, 'donation/donation_page.html', context)
+
 
 def payment_success(request):
     return render(request, 'donation/payment-success.html')
